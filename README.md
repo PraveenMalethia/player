@@ -1,4 +1,4 @@
-# player (A very Simple Music Player build using Vue.js)
+# Player (A very Simple Music Player build using Vue.js)
 
 ## Project setup
 ```
