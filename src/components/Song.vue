@@ -12,7 +12,8 @@
               <v-card-title class="text-h6">
                 <v-row class="fill-height flex-column" justify="space-between">
                   <p class="mt-4 ml-4 subheading text-center">
-                    {{ song.name }} <v-icon v-if="playing" class="ml-2">mdi-music</v-icon>
+                    {{ song.name }}
+                    <v-icon v-if="playing" class="ml-2">mdi-music</v-icon>
                   </p>
                   <v-slider
                     v-model="volume"
@@ -28,7 +29,7 @@
                   ></v-slider>
                   <div class="align-self-center">
                     <v-btn
-                      @click="previous(song.id)"
+                      @click="backward(song.id)"
                       :key="1"
                       class="show-btns"
                       :color="transparent"
@@ -56,7 +57,7 @@
                       </v-icon>
                     </v-btn>
                     <v-btn
-                      @click="next(song.id)"
+                      @click="forward(song.id)"
                       :key="3"
                       :class="{ 'show-btns': hover }"
                       :color="transparent"
@@ -67,6 +68,20 @@
                         :color="transparent"
                       >
                         mdi-fast-forward
+                      </v-icon>
+                    </v-btn>
+                    <v-btn
+                      @click="repeat(song.id)"
+                      :key="4"
+                      :class="{ 'show-btns': hover }"
+                      :color="transparent"
+                      icon
+                    >
+                      <v-icon
+                        :class="{ 'show-btns': hover }"
+                        :color="transparent"
+                      >
+                        {{ loop ? 'mdi-repeat' : 'mdi-repeat-off' }}
                       </v-icon>
                     </v-btn>
                   </div>
@@ -83,7 +98,6 @@
   </v-container>
 </template>
 <script>
-
 export default {
   props: {
     song: {
@@ -97,9 +111,13 @@ export default {
     otherPlaying: false,
     volume: 9,
     muted: false,
+    loop:false,
   }),
+  mounted() {
+    console.log(document.getElementById("music" + this.song.id).currentTime);
+  },
   methods: {
-    previous(id) {
+    backward(id) {
       let music = document.getElementById("music" + id);
       music.currentTime = music.currentTime - 10;
     },
@@ -117,10 +135,11 @@ export default {
       }
     },
 
-    next(id) {
-      let music = document.getElementById("music" + id);
-      console.log(music.currentTime);
-      music.currentTime = music.currentTime + Number(10);
+    forward(id) {
+      var music = document.getElementById("music" + id);
+      var time = music.currentTime + 10.0;
+      console.log(time);
+      music.currentTime = time;
     },
     mute(id) {
       let music = document.getElementById("music" + id);
@@ -131,6 +150,18 @@ export default {
         music.muted = true;
         this.muted = true;
       }
+    },
+    repeat(id){
+      let music = document.getElementById("music" + id);
+      if (music.loop){
+        music.loop = false;
+        this.loop = false;
+      }
+      else{
+        music.loop = true;
+        this.loop = true;
+      }
+      console.log(music.loop);
     },
     intToFloat(num, decPlaces) {
       return 0 + "." + String(num)[0] + Array(decPlaces + 2).join("0");
