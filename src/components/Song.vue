@@ -29,20 +29,6 @@
                   ></v-slider>
                   <div class="align-self-center">
                     <v-btn
-                      @click="backward(song.id)"
-                      :key="1"
-                      class="show-btns"
-                      :color="transparent"
-                      icon
-                    >
-                      <v-icon
-                        :class="{ 'show-btns': hover }"
-                        :color="transparent"
-                      >
-                        mdi-rewind
-                      </v-icon>
-                    </v-btn>
-                    <v-btn
                       @click="togglePlay(song.id)"
                       :key="2"
                       :class="{ 'show-btns': hover }"
@@ -54,20 +40,6 @@
                         :color="transparent"
                       >
                         {{ playing ? "mdi-pause" : "mdi-play" }}
-                      </v-icon>
-                    </v-btn>
-                    <v-btn
-                      @click="forward(song.id)"
-                      :key="3"
-                      :class="{ 'show-btns': hover }"
-                      :color="transparent"
-                      icon
-                    >
-                      <v-icon
-                        :class="{ 'show-btns': hover }"
-                        :color="transparent"
-                      >
-                        mdi-fast-forward
                       </v-icon>
                     </v-btn>
                     <v-btn
@@ -117,11 +89,6 @@ export default {
     console.log(document.getElementById("music" + this.song.id).currentTime);
   },
   methods: {
-    backward(id) {
-      let music = document.getElementById("music" + id);
-      music.currentTime = music.currentTime - 10;
-    },
-
     togglePlay(id) {
       let music = document.getElementById("music" + id);
       music.play();
@@ -133,13 +100,6 @@ export default {
         music.play();
         this.playing = true;
       }
-    },
-
-    forward(id) {
-      var music = document.getElementById("music" + id);
-      var time = music.currentTime + 10.0;
-      console.log(time);
-      music.currentTime = time;
     },
     mute(id) {
       let music = document.getElementById("music" + id);
